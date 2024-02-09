@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<div id="google_translate_element" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);"></div>
+<head>
+ 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+  <title>Payment Options</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Custom color */
+    .bg-medium-lavender-magenta {
+      background-color: #b181db;
+    }
+  
+     
+    </body>
+  </style>
+</head>
+
+<body class="flex items-center justify-center bg-white-100 dark:bg-white-800 h-screen">
+  <div class="payment-container">
+    <div class="payment-header bg-medium-lavender-magenta text-white py-4">
+      Choose your payment method
+    </div>
+    <div class="payment-section recommended">
+      <h2 class="text-lg font-semibold mb-4">RECOMMENDED</h2>
+      <label for="cod" class="block bg-white-200 p-3 rounded-lg mb-4 cursor-pointer">
+        <input type="radio" id="cod" name="payment-method" checked>
+        <strong>Cash on Delivery/Pay on Delivery</strong>
+      </label>
+    </div>
+    <div class="payment-section">
+      <h2 class="text-lg font-semibold mb-4">Nile PAY</h2>
+      <div class="payment-method flex items-center mb-4">
+        <input type="radio" id="upi" name="payment-method" value="upi">
+        <label for="upi" class="ml-2">
+          <div class="payment-description">
+            <span class="block font-semibold mb-1">UPI</span>
+            <span class="block text-sm text-white-600">Select to get started with Nile Pay UPI</span>
+          </div>
+        </label>
+        <img src="upi.png" alt="UPI Icon" class="w-6 h-6 ml-auto">
+      </div>
+    </div>
+    <div class="payment-section">
+      <h2 class="text-lg font-semibold mb-4">MORE WAYS TO PAY</h2>
+      <div class="payment-methods">
+        <div class="payment-method flex items-center mb-4">
+          <input type="radio" id="credit-card" name="payment-method" value="credit-card">
+          <label for="credit-card" class="ml-2">Credit or debit card</label>
+          <img src="credit.png" alt="Credit Card Icon" class="w-6 h-6 ml-auto">
+        </div>
+        <div class="payment-method flex items-center mb-4">
+          <input type="radio" id="emi" name="payment-method" value="emi">
+          <label for="emi" class="ml-2">EMI</label>
+          <img src="emi.png" alt="EMI Icon" class="w-6 h-6 ml-auto">
+        </div>
+        <div class="payment-method flex items-center">
+          <input type="radio" id="net-banking" name="payment-method" value="net-banking">
+          <label for="net-banking" class="ml-2">Net Banking</label>
+          <img src="netbanking.png" alt="Net Banking Icon" class="w-6 h-6 ml-auto">
+        </div>
+      </div>
+    </div>
+    <div class="payment-footer bg-white-200 py-4">
+      <button onclick="window.location.href='../order-update-page/index.html';" class="continue-btn bg-medium-lavender-magenta text-white w-full py-2 rounded-md font-semibold">
+        Continue
+      </button>
+    </div>
+  </div>
+</body>
+   
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {pageLanguage: 'en'},
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</html>

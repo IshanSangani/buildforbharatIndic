@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Update</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .order-update-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    .order-status {
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .order-status h2 {
+      color: #b181db;
+      text-align: center;
+    }
+
+    .order-status p,
+    .order-details p,
+    .customer-service p {
+      text-align: center;
+      color: #555;
+    }
+
+    .tracking-link {
+      display: block;
+      text-align: center;
+      color: #0d6efd;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .customer-service {
+      text-align: center;
+    }
+
+    .customer-service strong {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .add-card-btn,
+    .continue-btn {
+      display: block;
+      width: calc(100% - 40px);
+      margin: 10px auto;
+      padding: 10px;
+      background: #a1c3d1;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Additional styles for Stylish Design section */
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 30px;
+      background-color: #b181db;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #b49cc9;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="google_translate_element"></div>
+
+  <div class="order-update-container">
+    <h1>Order Update</h1>
+    <div class="order-status">
+      <h2>Your Order has been Placed!</h2>
+      <p>Thank you for your purchase. You will receive an email confirmation shortly.</p>
+      <div class="order-details">
+        <p><strong>Order Number:</strong> #123456789</p>
+        <p><strong>Estimated Delivery:</strong> 5-7 Business Days</p>
+      </div>
+      <div class="order-tracking">
+        <p><strong>Track your order:</strong></p>
+        <a href="#" class="tracking-link">Click here to track your order</a>
+      </div>
+    </div>
+    <div class="customer-service">
+      <p>If you have any questions, please contact our customer service:</p>
+      <strong>Email:</strong> support@example.com
+      <strong>Phone:</strong> +1 234 567 8900
+    </div>
+
+    <div class="container">
+      <a class="button" href="../custservpage/index.html" target="_blank">Continue</a>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {pageLanguage: 'en'},
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0;
+}
+
+header {
+  background: #fff;
+  padding: 10px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.search-bar input[type="text"] {
+  flex-grow: 1;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.product {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.rating,
+.badge {
+  margin: 5px 0;
+}
+
+/* Carousel Styles */
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.carousel-item {
+  margin-right: 10px;
+  text-align: center;
+}
+
+.carousel-item img {
+  border: 3px solid transparent;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.carousel-item.selected img {
+  border-color: #000;
+}
+
+/* Price Info Styles */
+.price-info,
+.delivery-info {
+  background: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.price-info .discount {
+  color: red;
+  font-weight: bold;
+}
+
+.price-info .final-price {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.price-info .fulfilled {
+  background: #ffffe0;
+  display: inline-block;
+  padding: 2px 5px;
+}
+
+/* Delivery Info Styles */
+.delivery-info p {
+  margin: 5px 0;
+}
+
+.delivery-info a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Footer Styles */
+footer {
+  background: #fff;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+footer nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+footer a {
+  text-decoration: none;
+  color: #333;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}

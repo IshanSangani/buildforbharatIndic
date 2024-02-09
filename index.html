@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indic Language Translation with Speech-to-Text</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.image-container {
+    margin-top: 20px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+#detectedText {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+    </style>
+    <!-- Add Google Translate element to the header -->
+    <div id="google_translate_element"></div>
+</head>
+<body>
+    <div class="container">
+        <h1>Indic Language Translation with Speech-to-Text and OCR</h1>
+        <label for="sourceLanguage">Select Source Language:</label>
+        <select id="sourceLanguage" onchange="changeLanguage()">
+            <option value="hi">Hindi</option>
+            <option value="gu">Gujarati</option>
+            <option value="mr">Marathi</option>
+            <option value="en">English</option>
+        </select>
+        
+        <label for="targetLanguage">Select Target Language:</label>
+<select id="targetLanguage" onchange="changeGoogleTranslateLanguage()">
+    <option value="hi">Hindi</option>
+    <option value="gu">Gujarati</option>
+    <option value="mr">Marathi</option>
+    <option value="en">English</option>
+</select>
+        <br><br>
+
+        <textarea id="inputText" rows="4" placeholder="Enter text in Hindi"></textarea>
+        <button onclick="translateText()">Translate</button>
+        <div id="translatedText"></div>
+        <button id="startRecording" onclick="startRecording()">Start Recording</button>
+        <button id="stopRecording" onclick="stopRecording()" style="display: none;">Stop Recording</button>
+        <div id="transcription"></div>
+        <div class="image-container" id="imageContainer"></div>
+        <input type="file" id="imageInput" accept="image/*">
+        <div id="detectedText"></div>
+        <div id="logList"></div>
+    </div>
+
+    <!-- Add script tags for Google Translate -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default source and target languages
+            document.getElementById('sourceLanguage').value = 'hi'; // Hindi
+            document.getElementById('targetLanguage').value = 'gu'; // Gujarati
+            
+            // Trigger change events to update UI accordingly
+            changeLanguage();
+            changeGoogleTranslateLanguage();
+        });
+        function changeLanguage() {
+            const selectedLanguage = document.getElementById('sourceLanguage').value;
+            const inputText = document.getElementById('inputText');
+
+            switch (selectedLanguage) {
+                case 'en':
+                    inputText.placeholder = "Enter text in English";
+                    inputText.lang = "en";
+                    break;
+                case 'hi':
+                    inputText.placeholder = "अपना टेक्स्ट हिंदी में डालें";
+                    inputText.lang = "hi";
+                    break;
+                case 'gu':
+                    inputText.placeholder = "તમારા ટેક્સ્ટ ગુજરાતીમાં નાખો";
+                    inputText.lang = "gu";
+                    break;
+                case 'mr':
+                    inputText.placeholder = "तुमचा मराठीतून टेक्स्ट लिहा";
+                    inputText.lang = "mr";
+                    break;
+                default:
+                    inputText.placeholder = "Enter text";
+                    inputText.lang = "";
+                    break;
+            }
+        }
+
+        function changeGoogleTranslateLanguage() {
+            const targetLanguage = document.getElementById('targetLanguage').value;
+            const translateElement = document.getElementById('google_translate_element').firstChild;
+            const event = new Event('change');
+
+            translateElement.innerHTML = ''; // Clear the current translation element
+            translateElement.setAttribute('id', 'google_translate_element'); // Restore the ID
+            googleTranslateElementInit(); // Reinitialize Google Translate with the new language
+            translateElement.dispatchEvent(event); // Trigger the change event to update the language
+        }
+    </script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en' },
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!-- Add your existing JavaScript code -->
+    
+    <script>
+        let recognition;
+
+        function startRecording() {
+            console.log('Start recording button clicked');
+
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onresult = event => {
+                const transcript = event.results[event.results.length - 1][0].transcript;
+                document.getElementById('transcription').innerText = transcript;
+                sendTranscriptionToServer(transcript, sourceLanguage); // Pass sourceLanguage to sendTranscriptionToServer
+            };
+
+            recognition.onerror = event => {
+                console.error('Recognition error:', event.error);
+            };
+
+            recognition.onend = () => {
+                console.log('Recognition ended');
+                document.getElementById('startRecording').style.display = 'inline';
+                document.getElementById('stopRecording').style.display = 'none';
+            };
+
+            document.getElementById('startRecording').style.display = 'none';
+            document.getElementById('stopRecording').style.display = 'inline';
+            recognition.start();
+        }
+
+        function stopRecording() {
+            console.log('Stop recording button clicked');
+            recognition.stop();
+        }
+
+        function sendTranscriptionToServer(transcription, sourceLanguage) {
+            console.log('Transcription:', transcription);
+        
+            // Define translations for "kameez", "chashma", and "chashmo" in Hindi, Marathi, and Gujarati
+            const translations = {
+    'kameez': {
+        'hi': 'कमीज',
+        'mr': 'कुर्ता',
+        'gu': 'કમીઝ'
+    },
+    'chashma': {
+        'hi': 'चश्मा',
+        'mr': 'चश्मा',
+        'gu': 'ચશ્મો'
+    },
+    'chasma': {
+        'hi': 'चश्मा',
+        'mr': 'चश्मा',
+        'gu': 'ચશ્મો'
+    },
+    
+    'chashmo': {
+        'hi': 'चश्मा',
+        'mr': 'चश्मा',
+        'gu': 'ચશ્મો'
+    },
+    'ghadi': {
+        'hi': 'घड़ी',
+        'mr': 'घड़ी',
+        'gu': 'ઘડિયાલ'
+    },
+    'ghadiyal': {
+        'hi': 'घड़ी',
+        'mr': 'घड़ी',
+        'gu': 'ઘડિયાલ'
+    }
+};
+
+// Get the translation based on the source language
+const translatedTextKameez = translations['kameez'][sourceLanguage];
+const translatedTextChashma = translations['chashma'][sourceLanguage];
+const translatedTextChashmo = translations['chashmo'][sourceLanguage];
+const translatedTextGhadi = translations['ghadi'][sourceLanguage];
+const translatedTextGhadiyal = translations['ghadiyal'][sourceLanguage];
+
+// Transliterate the transcribed text if it contains the words "kameez", "chashma", "chashmo", "ghadi", or "ghadiyal"
+const regex = new RegExp('(kameez|chashma|chashmo|ghadi|ghadiyal)', 'gi');
+const transliteratedText = transcription.replace(regex, (match) => {
+    if (match.toLowerCase() === 'kameez') {
+        return translatedTextKameez;
+    } else if (match.toLowerCase() === 'chashma') {
+        return translatedTextChashma;
+    } else if (match.toLowerCase() === 'chashmo') {
+        return translatedTextChashmo;
+    } else if (match.toLowerCase() === 'ghadi') {
+        return translatedTextGhadi;
+    } else if (match.toLowerCase() === 'ghadiyal') {
+        return translatedTextGhadiyal;
+    }
+});
+        
+            // Update the value of the input text area with the transliterated text
+            document.getElementById('inputText').value = transliteratedText;
+            // Trigger the translation (optional)
+            translateText();
+            
+            // Send the transcription and source language to the backend
+            fetch('/speech-to-text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ transcription, sourceLanguage }) // Include sourceLanguage in the request body
+            })
+            .then(response => response.json())
+            .then(data => console.log('Transcription response:', data))
+            .catch(error => console.error('Error:', error));
+        }
+        
+        function changeLanguage() {
+            const selectedLanguage = document.getElementById('sourceLanguage').value;
+            const targetLanguageSelect = document.getElementById('targetLanguage');
+        
+            switch (selectedLanguage) {
+                case 'en':
+                    // Set the placeholder and language for input text
+                    document.getElementById('inputText').placeholder = "Enter text in English";
+                    document.getElementById('inputText').lang = "en";
+                    
+                    // Hide the "English" option in the target language menu
+                    targetLanguageSelect.querySelector('option[value="en"]').style.display = 'none';
+                    break;
+                case 'hi':
+                    // Set the placeholder and language for input text
+                    document.getElementById('inputText').placeholder = "अपना टेक्स्ट हिंदी में डालें";
+                    document.getElementById('inputText').lang = "hi";
+                    
+                    // Show all options in the target language menu
+                    targetLanguageSelect.querySelectorAll('option').forEach(option => option.style.display = 'block');
+                    break;
+                case 'gu':
+                    // Set the placeholder and language for input text
+                    document.getElementById('inputText').placeholder = "તમારા ટેક્સ્ટ ગુજરાતીમાં નાખો";
+                    document.getElementById('inputText').lang = "gu";
+                    
+                    // Show all options in the target language menu
+                    targetLanguageSelect.querySelectorAll('option').forEach(option => option.style.display = 'block');
+                    break;
+                case 'mr':
+                    // Set the placeholder and language for input text
+                    document.getElementById('inputText').placeholder = "तुमचा मराठीतून टेक्स्ट लिहा";
+                    document.getElementById('inputText').lang = "mr";
+                    
+                    // Show all options in the target language menu
+                    targetLanguageSelect.querySelectorAll('option').forEach(option => option.style.display = 'block');
+                    break;
+                default:
+                    // Set the default placeholder and language for input text
+                    document.getElementById('inputText').placeholder = "Enter text";
+                    document.getElementById('inputText').lang = "";
+                    
+                    // Show all options in the target language menu
+                    targetLanguageSelect.querySelectorAll('option').forEach(option => option.style.display = 'block');
+                    break;
+            }
+        }
+        
+        
+        function translateText() {
+            const inputText = document.getElementById('inputText').value;
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+            const targetLanguage = document.getElementById('targetLanguage').value;
+
+            fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: inputText, sourceLanguage, targetLanguage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('translatedText').innerText = data.translatedText;
+                displayImage(data.imageUrl, data.price);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function displayImage(imageUrl, price) {
+            const imageContainer = document.getElementById('imageContainer');
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                imageContainer.innerHTML = '';
+                imageContainer.appendChild(img);
+                if (price) {
+                    const priceParagraph = document.createElement('p');
+                    priceParagraph.textContent = `Price: ${price}`;
+                    imageContainer.appendChild(priceParagraph);
+                }
+        
+                // Add a specific link if the image is for glasses
+                if (imageUrl.includes('https://silly-florentine-76589e.netlify.app/')) {
+                    const imageLink = document.createElement('a');
+                    imageLink.href = 'product-detailpage/index.html'; // Replace 'https://www.example.com' with your desired link
+                    imageLink.target = '_blank';
+                    imageLink.textContent = 'Click here for more information';
+                    imageContainer.appendChild(imageLink);
+                }
+            } else {
+                imageContainer.innerHTML = '';
+            }
+        }
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const selectedFile = event.target.files[0];
+            if (selectedFile) {
+                sendImageToBackend(selectedFile);
+            }
+        });
+        function handleImageUpload(event) {
+            const file = event.target.files;
+            const formData = new FormData();
+            formData.append('file', file);
+            axios.post('/detect-text', formData)
+              .then((response) => {
+                const detectedText = response.data.detectedText;
+                console.log('Detected text:', detectedText);
+                document.getElementById('inputText').value = detectedText; // Set the value of the text input field to the detected text
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          }
+         
+          
+        
+          const logList = document.getElementById('logList');
+const ws = new WebSocket('ws://localhost:8080');
+
+ws.onopen = function () {
+    console.log('WebSocket connection established');
+};
+
+ws.onmessage = function (event) {
+    const logMessage = event.data;
+    const startIndex = logMessage.indexOf("detected text: ");
+    if (startIndex !== -1) {
+        const detectedText = logMessage.slice(startIndex + "detected text: ".length);
+        document.getElementById('inputText').value += detectedText.trim() + '\n'; // Append the detected text to the input text box
+    }
+};
+
+ws.onclose = function () {
+    console.log('WebSocket connection closed');
+};
+              
+         
+// Send the image file path to the server for processing
+// Function to send image file to backend
+function sendImageToBackend(imageFile) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    fetch('/process-image', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const variableFromServer = data.variable; // Access the variable from the response object
+        // Update the DOM element with the variable value
+        document.getElementById('variableDisplay').innerText = variableFromServer;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+ચશ્મો
+घड़ी
+कमीज
+and many more words in english as well
+it supports any words as you type because api is being used

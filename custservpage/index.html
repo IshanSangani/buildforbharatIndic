@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Services</title>
+  <div id="google_translate_element"></div> 
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    
+    /* Additional styles */
+    .faq-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+      transition: background-color 0.3s;
+    }
+
+    .faq-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .faq-question {
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      font-size: 16px;
+      color: #4a5568;
+      display: none;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .faq-answer.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .faq-item {
+        padding: 30px 20px;
+      }
+
+      .faq-question {
+        font-size: 20px;
+      }
+
+      .faq-answer {
+        font-size: 18px;
+      }
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-image {
+      width: 80px;
+      height: auto;
+    }
+
+    .website-name {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <div class="logo-container">
+    <img src="symbol.jpg" alt="Nile Logo" class="logo-image">
+    <div class="website-name">Nile.in</div>
+  </div>
+
+  </div>
+  <title>Customer Services</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Additional styles */
+    .faq-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+      transition: background-color 0.3s;
+    }
+
+    .faq-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .faq-question {
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      font-size: 16px;
+      color: #4a5568;
+      display: none;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .faq-answer.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .faq-item {
+        padding: 30px 20px;
+      }
+
+      .faq-question {
+        font-size: 20px;
+      }
+
+      .faq-answer {
+        font-size: 18px;
+      }
+    }
+  </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+      <h1 class="text-3xl font-semibold text-center mb-8">Customer Services</h1>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(1)">How can I track my order?</div>
+          <div class="faq-answer" id="answer1">
+            You can track your order by logging into your account and going to the 'Orders' section. Alternatively,
+            you
+            can use the tracking number provided in the shipping confirmation email to track your order on the
+            courier's
+            website.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(2)">What is your return policy?</div>
+          <div class="faq-answer" id="answer2">
+            Our return policy allows you to return items within 30 days of purchase for a full refund. Items must be
+            in
+            their original condition and packaging.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(3)">How can I contact customer support?</div>
+          <div class="faq-answer" id="answer3">
+            You can contact our customer support team via email at support@example.com or by phone at
+            1-800-123-4567. Our
+            support team is available 24/7 to assist you.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(4)">Do you offer international shipping?</div>
+          <div class="faq-answer" id="answer4">
+            Yes, we offer international shipping to select countries. Please check our shipping policy page for more
+            information.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(5)">What payment methods do you accept?</div>
+          <div class="faq-answer" id="answer5">
+            We accept payments via credit/debit cards, PayPal, and bank transfers. You can view all accepted payment
+            methods during the checkout process.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleAnswer(6)">How do I change or cancel my order?</div>
+          <div class="faq-answer" id="answer6">
+            To change or cancel your order, please contact our customer support team as soon as possible. We'll do
+            our
+            best to accommodate your request.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function toggleAnswer(id) {
+        var answer = document.getElementById('answer' + id);
+        answer.classList.toggle('show');
+      
+      
+    </script>
+    <script src="script.js"></script>
+        <script type="text/javascript">
+          function googleTranslateElementInit() {
+              new google.translate.TranslateElement(
+                  {pageLanguage: 'en'},
+                  'google_translate_element'
+              );
+          } 
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+      function toggleAnswer(id) {
+        var answer = document.getElementById('answer' + id);
+        answer.classList.toggle('show');
+      }
+    </script>
+  </body>
+  
+</html>
